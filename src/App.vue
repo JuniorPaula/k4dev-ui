@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<Header />
+		<Header title="K4Dev - Base de conhecimento" :hideToggle="false" />
 		<Menu />
 		<Content />
 		<Footer />
