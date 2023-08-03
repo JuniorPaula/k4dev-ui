@@ -1,6 +1,6 @@
 <template>
 	<div id="app" :class="{'hide-menu' : !isMenuVisible}">
-		<Header title="K4Dev - Base de conhecimento" :hideToggle="false" />
+		<Header title="K4Dev - Base de conhecimento" :hideToggle="false" :hideUserDropdown="false" />
 		<Menu />
 		<Content />
 		<Footer />
