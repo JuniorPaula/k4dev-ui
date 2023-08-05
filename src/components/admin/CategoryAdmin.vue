@@ -103,6 +103,10 @@ export default {
                 this.$toasted.global.defaultSuccess({ msg: 'Categoria removida com sucesso!' })
                 this.reset()
             }).catch(err => {
+                if (err.response.status === 400) {
+                    this.$toasted.global.defaultError({ msg: 'Categoria possui sub-categoria. Por favor remova antes.' })
+                    return
+                }
                 showError(err)
             })
         },
