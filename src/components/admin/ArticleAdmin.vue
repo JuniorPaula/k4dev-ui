@@ -107,7 +107,7 @@ export default {
                 this.articles = res.data.data
                 this.count = res.data.count
                 this.limit = res.data.limit
-            }).catch(showError)
+            }).catch(err => showError(err.response.data))
         },
         reset() {
             this.mode = 'save'
@@ -121,9 +121,7 @@ export default {
                 const msg = this.article.id ? 'Artigo atualizado com sucesso!' : 'Artigo cadastrado com sucesso!'
                 this.$toasted.global.defaultSuccess({ msg })
                 this.reset()
-            }).catch(err => {
-                showError(err)
-            })
+            }).catch(err => showError(err.response.data))
         },
         remove() {
             axios.delete(`${baseApiUrl}/category/delete/${this.category.id}`).then(() => {
@@ -141,7 +139,7 @@ export default {
             this.mode = mode
             axios.get(`${baseApiUrl}/articles/${article.id}`).then(res => {
                 this.article = res.data
-            }).catch(showError)
+            }).catch(err => showError(err.response.data))
         },
         loadCategories() {
             axios.get(`${baseApiUrl}/category`).then(res => {
@@ -151,7 +149,7 @@ export default {
                         text: category.path,
                     }
                 })
-            }).catch(showError)
+            }).catch(err => showError(err.response.data))
         },
         loadUsers() {
             axios.get(`${baseApiUrl}/users`).then(res => {
@@ -161,7 +159,7 @@ export default {
                         text: `${user.name} - ${user.email}`,
                     }
                 })
-            }).catch(showError)
+            }).catch(err => showError(err.response.data))
         },
         
     },
