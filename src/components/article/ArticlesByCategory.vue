@@ -1,6 +1,16 @@
 <template>
     <div class="articles-by-category">
         <PageTitle icon="fa fa-folder-o" :main="category.name" sub="Categoria" />
+        <ul>
+            <li v-for="article in articles" :key="article.id">
+                {{ article.name }}
+            </li>
+        </ul>
+        <div class="load-more">
+            <b-button v-if="loadMore" class="btn btn-md btn-outline-primary" @click="getArticles">
+                Carregar mais
+            </b-button>
+        </div>
     </div>
 </template>
 
@@ -31,11 +41,24 @@ export default {
                 showError(err.response.data)
             })
         },
+        getArticles() {
+            axios.get(`${baseApiUrl}/category/${this.category.id}/articles?page=${this.page}`).then(res => {
+                this.articles = this.articles.concat(res.data)
+                this.page++
+
+                if (res.data.length === 0) {
+                    this.loadMore = false
+                }
+            }).catch(err => {
+                showError(err.response.data)
+            })
+        }
     
     },
     mounted() {
         this.category.id = this.$route.params.id
         this.getCategory()
+        this.getArticles()
     },
     
 }
@@ -43,5 +66,16 @@ export default {
 </script>
 
 <style>
+    .articles-by-category ul {
+        list-style-type: none;
+        padding: 0px;
+    }
+
+    .articles-by-category .load-more {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 25px;
+    }
     
 </style>
