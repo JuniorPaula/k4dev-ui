@@ -15,6 +15,13 @@
                     </b-form-group>
                 </b-col>
             </b-row>
+            <b-row v-show="mode === 'save'">
+                <b-col xs="12">
+                    <b-form-group label="Categoria Pai:" label-for="category-parentId">
+                        <b-form-select id="category-parentId" v-model="category.parent_id" :options="categories" />
+                    </b-form-group>
+                </b-col>
+            </b-row>
             
             <b-row>
                 <b-col xs="12">
@@ -66,7 +73,13 @@ export default {
     methods: {
         loadCategories() {
             axios.get(`${baseApiUrl}/category`).then(res => {
-                this.categories = res.data;
+                this.categories = res.data.map(category => {
+                    return {
+                        ...category,
+                        value: category.id,
+                        text: category.path,
+                    }
+                })
             });
         },
         reset() {
