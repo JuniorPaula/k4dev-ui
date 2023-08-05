@@ -2,40 +2,28 @@
     <div class="category-admin">
         <b-form>
             <input type="hidden" id="category-id" v-model="category.id">
-            <b-row>
-                <b-col xs="12">
-                    <b-form-group label="Categoria:">
-                        <b-form-input 
-                            id="category-name" 
-                            type="text"
-                            :readonly="mode === 'remove'"
-                            v-model="category.name" 
-                            required 
-                            placeholder="Informe o nome do Categoria" />
-                    </b-form-group>
-                </b-col>
-            </b-row>
-            <b-row v-show="mode === 'save'">
-                <b-col xs="12">
-                    <b-form-group label="Categoria Pai:" label-for="category-parentId">
-                        <b-form-select id="category-parentId" v-model="category.parent_id" :options="categories" />
-                    </b-form-group>
-                </b-col>
-            </b-row>
-            
-            <b-row>
-                <b-col xs="12">
-                    <b-button variant="primary" v-if="mode === 'save'" @click="save">
-                        Salvar
-                    </b-button>
-                    <b-button variant="danger" v-if="mode === 'remove'" @click="remove">
-                        Excluir
-                    </b-button>
-                    <b-button class="ml-2" @click="reset">
-                        Cancelar
-                    </b-button>
-                </b-col>
-            </b-row>
+            <b-form-group label="Categoria:">
+                <b-form-input 
+                    id="category-name" 
+                    type="text"
+                    :readonly="mode === 'remove'"
+                    v-model="category.name" 
+                    required 
+                    placeholder="Informe o nome do Categoria" />
+            </b-form-group>
+            <b-form-group v-show="mode === 'save'" label="Categoria Pai:" label-for="category-parentId">
+                <b-form-select id="category-parentId" v-model="category.parent_id" :options="categories" />
+            </b-form-group>
+
+            <b-button variant="primary" v-if="mode === 'save'" @click="save">
+                Salvar
+            </b-button>
+            <b-button variant="danger" v-if="mode === 'remove'" @click="remove">
+                Excluir
+            </b-button>
+            <b-button class="ml-2" @click="reset">
+                Cancelar
+            </b-button>
         </b-form>
         
         <hr />
