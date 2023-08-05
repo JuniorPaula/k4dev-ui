@@ -40,7 +40,7 @@
                 <b-form-select id="article-userId" v-model="article.user_id" :options="users" />
             </b-form-group>
 
-            <b-form-group label="Conteúdo" label-for="category-content">
+            <b-form-group v-show="mode === 'save'" label="Conteúdo" label-for="category-content">
                 <VueEditor
                     id="category-content"
                     v-model="article.content"
@@ -61,10 +61,10 @@
         <hr />
         <b-table hover striped :items="articles" :fields="fields">
             <template slot="actions" slot-scope="data">
-                <b-button variant="warning" @click="loadCategory(data.item)" class="mr-2">
+                <b-button variant="warning" @click="loadArticle(data.item)" class="mr-2">
                     <i class="fa fa-pencil"></i>
                 </b-button>
-                <b-button variant="danger" @click="loadCategory(data.item, 'remove')" class="mr-2">
+                <b-button variant="danger" @click="loadArticle(data.item, 'remove')" class="mr-2">
                     <i class="fa fa-trash"></i>
                 </b-button>
             </template>
@@ -141,9 +141,32 @@ export default {
                 this.article = res.data
             }).catch(showError)
         },
+        loadCategories() {
+            axios.get(`${baseApiUrl}/category`).then(res => {
+                this.categories = res.data.map(category => {
+                    return {
+                        value: category.id,
+                        text: category.path,
+                    }
+                })
+            }).catch(showError)
+        },
+        loadUsers() {
+            axios.get(`${baseApiUrl}/users`).then(res => {
+                this.users = res.data.map(user => {
+                    return {
+                        value: user.id,
+                        text: `${user.name} - ${user.email}`,
+                    }
+                })
+            }).catch(showError)
+        },
+        
     },
     mounted() {
         this.loadArticles()
+        this.loadCategories()
+        this.loadUsers()
     },
 }
 </script>
