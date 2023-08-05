@@ -9,7 +9,7 @@
                     :readonly="mode === 'remove'"
                     v-model="category.name" 
                     required 
-                    placeholder="Informe o nome do Categoria" />
+                    placeholder="Informe o nome da Categoria" />
             </b-form-group>
             <b-form-group v-show="mode === 'save'" label="Categoria Pai:" label-for="category-parentId">
                 <b-form-select id="category-parentId" v-model="category.parent_id" :options="categories" />

@@ -1,11 +1,150 @@
 <template>
     <div class="article-admin">
-        <h1>Artigo componente</h1>
+        <b-form>
+            <input type="hidden" id="article-id" v-model="article.id">
+            <b-form-group label="Artigo:" label-for="article-name">
+                <b-form-input 
+                    id="article-name" 
+                    type="text"
+                    :readonly="mode === 'remove'"
+                    v-model="article.name" 
+                    required 
+                    placeholder="Informe o nome do Artigo" />
+            </b-form-group>
+
+            <b-form-group label="Descrição:" label-for="article-description">
+                <b-form-input 
+                    id="article-description" 
+                    type="text"
+                    :readonly="mode === 'remove'"
+                    v-model="article.description" 
+                    required 
+                    placeholder="Informe a descrição do Artigo" />
+            </b-form-group>
+
+            <b-form-group label="Imagem (URL):" label-for="article-imageUrl">
+                <b-form-input 
+                    id="article-imageUrl" 
+                    type="text"
+                    :readonly="mode === 'remove'"
+                    v-model="article.imageUrl" 
+                    required 
+                    placeholder="Informe a URL da imagem" />
+            </b-form-group>
+
+            <b-form-group v-show="mode === 'save'" label="Categoria:" label-for="article-categoryId">
+                <b-form-select id="article-categoryId" v-model="article.category_id" :options="categories" />
+            </b-form-group>
+
+            <b-form-group v-show="mode === 'save'" label="Autor:" label-for="article-userId">
+                <b-form-select id="article-userId" v-model="article.user_id" :options="users" />
+            </b-form-group>
+
+            <b-form-group label="Conteúdo" label-for="category-content">
+                <VueEditor
+                    id="category-content"
+                    v-model="article.content"
+                    placeholder="Informe o conteúdo do Artigo..." />
+            </b-form-group>
+
+            <b-button variant="primary" v-if="mode === 'save'" @click="save">
+                Salvar
+            </b-button>
+            <b-button variant="danger" v-if="mode === 'remove'" @click="remove">
+                Excluir
+            </b-button>
+            <b-button class="ml-2" @click="reset">
+                Cancelar
+            </b-button>
+        </b-form>
+        
+        <hr />
+        <b-table hover striped :items="articles" :fields="fields">
+            <template slot="actions" slot-scope="data">
+                <b-button variant="warning" @click="loadCategory(data.item)" class="mr-2">
+                    <i class="fa fa-pencil"></i>
+                </b-button>
+                <b-button variant="danger" @click="loadCategory(data.item, 'remove')" class="mr-2">
+                    <i class="fa fa-trash"></i>
+                </b-button>
+            </template>
+        </b-table>
     </div>
 </template>
 <script>
+import axios from 'axios';
+import { baseApiUrl, showError } from '../../global'
+import { VueEditor } from 'vue2-editor'
+
 export default {
     name: 'ArticleAdmin',
+    components: {
+        VueEditor
+    },
+    data: function() {
+        return {
+            mode: 'save',
+            article: {},
+            articles: [],
+            categories: [],
+            users: [],
+            page: 1,
+            limit: 0,
+            count: 0,
+            fields: [
+                { key: 'id', label: 'Código', sortable: true },
+                { key: 'name', label: 'Nome', sortable: true },
+                { key: 'description', label: 'Descrição', sortable: true },
+                { key: 'actions', label: 'Ações' }
+            ]
+        }
+    },
+    methods: {
+        loadArticles() {
+            axios.get(`${baseApiUrl}/articles`).then(res => {
+                this.articles = res.data.data
+                this.count = res.data.count
+                this.limit = res.data.limit
+            }).catch(showError)
+        },
+        reset() {
+            this.mode = 'save'
+            this.article = {}
+            this.loadArticles()
+        },
+        save() {
+            const method = this.article.id ? 'put' : 'post'
+            const url = this.article.id ? `${baseApiUrl}/articles/${this.article.id}` : `${baseApiUrl}/articles`
+            axios[method](url, this.article).then(() => {
+                const msg = this.article.id ? 'Artigo atualizado com sucesso!' : 'Artigo cadastrado com sucesso!'
+                this.$toasted.global.defaultSuccess({ msg })
+                this.reset()
+            }).catch(err => {
+                showError(err)
+            })
+        },
+        remove() {
+            axios.delete(`${baseApiUrl}/category/delete/${this.category.id}`).then(() => {
+                this.$toasted.global.defaultSuccess({ msg: 'Categoria removida com sucesso!' })
+                this.reset()
+            }).catch(err => {
+                if (err.response.status === 400) {
+                    this.$toasted.global.defaultError({ msg: 'Permissão negada para deletar o artigo.' })
+                    return
+                }
+                showError(err)
+            })
+        },
+        loadArticle(article, mode = 'save') {
+            this.mode = mode
+            axios.get(`${baseApiUrl}/articles/${article.id}`).then(res => {
+                this.article = res.data
+            }).catch(showError)
+        },
+    },
+    mounted() {
+        this.loadArticles()
+    },
 }
 </script>
 <style>
