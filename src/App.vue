@@ -2,18 +2,22 @@
 	<div id="app" :class="{'hide-menu' : !isMenuVisible || !user}">
 		<Header title="K4Dev - Base de conhecimento" :hideToggle="!user" :hideUserDropdown="!user" />
 		<Menu v-if="user" />
-		<Content />
+		<Loading v-if="validatingToken" />
+		<Content v-else />
 		<Footer />
 	</div>
 </template>
 
 <script>
+import axios from 'axios'
 import { mapState } from 'vuex'
+import { baseApiUrl, userKey } from './global'
 
 import Menu from './components/templates/Menu.vue'
 import Header from './components/templates/Header.vue'
 import Content from './components/templates/Content.vue'
 import Footer from './components/templates/Footer.vue'
+import Loading from './components/templates/Loading.vue'
 
 
 export default {
@@ -22,9 +26,40 @@ export default {
 		Menu,
 		Header,
 		Content,
-		Footer
+		Footer,
+		Loading
 	},
-	computed: mapState(['isMenuVisible', 'user'])
+	computed: mapState(['isMenuVisible', 'user']),
+	data: function() {
+		return {
+			validatingToken: true
+		}
+	},
+	methods: {
+		async validateToken() {
+			this.validatingToken = true
+			const userData = JSON.parse(localStorage.getItem(userKey))
+			this.$store.commit('setUser', null)
+			if (!userData) {
+				this.validatingToken = false
+				this.$router.push({ path: '/login' })
+				return
+			}
+
+			const res = await axios.post(`${baseApiUrl}/validateToken`, userData)
+			if (res.data.isValid) {
+				this.$store.commit('setUser', userData)
+			} else {
+				localStorage.removeItem(userKey)
+				this.$router.push({ path: '/login' })
+			}
+
+			this.validatingToken = false
+		}
+	},
+	created() {
+		this.validateToken()
+	},
 }
 
 </script>
