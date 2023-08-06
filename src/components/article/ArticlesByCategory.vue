@@ -62,6 +62,17 @@ export default {
         this.getCategory()
         this.getArticles()
     },
+    watch: {
+        $route(to) {
+            this.category.id = to.params.id
+            this.articles = []
+            this.page = 1
+            this.loadMore = true
+
+            this.getCategory()
+            this.getArticles()
+        }
+    }
     
 }
 

@@ -36,9 +36,15 @@ export default {
         getTreeData() {
             return axios.get(`${baseApiUrl}/category/tree`)
                         .then(res => res.data)
+        },
+        onNodeSelected(node) {
+            this.$router.push({ name: 'articlesByCategory', params: { id: node.id } })
         }
     
-    },    
+    },
+    mounted() {
+        this.$refs.tree.$on('node:selected', this.onNodeSelected)
+    },
 }
 </script>
 
