@@ -40,9 +40,10 @@ export default {
 			this.validatingToken = true
 			const userData = JSON.parse(localStorage.getItem(userKey))
 			this.$store.commit('setUser', null)
+
 			if (!userData) {
 				this.validatingToken = false
-				this.$router.push({ path: '/login' })
+				this.$router.push({ name: 'auth' })
 				return
 			}
 
@@ -51,9 +52,9 @@ export default {
 				this.$store.commit('setUser', userData)
 			} else {
 				localStorage.removeItem(userKey)
-				this.$router.push({ path: '/login' })
+				this.$router.push({ name: 'auth' })
 			}
-
+			
 			this.validatingToken = false
 		}
 	},
