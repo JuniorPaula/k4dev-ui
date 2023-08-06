@@ -131,6 +131,7 @@ export default {
         padding: 5px 15px;
         border: none;
         cursor: pointer;
+        margin-bottom: 10px;
     }
 
     .auth-modal hr {
