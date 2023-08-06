@@ -30,7 +30,7 @@ export default {
        })
     },
     updated() {
-        document.querySelectorAll('article-content pre').forEach((block) => {
+        document.querySelectorAll('.article-content pre').forEach((block) => {
             hljs.highlightBlock(block);
         });
     },
