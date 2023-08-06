@@ -1,5 +1,6 @@
 import Vue from 'vue'
 
+export const userKey = '__k4dev_user'
 export const baseApiUrl = 'http://localhost:8081'
 
 export function showError(error) {
