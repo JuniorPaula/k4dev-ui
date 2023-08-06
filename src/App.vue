@@ -1,7 +1,7 @@
 <template>
-	<div id="app" :class="{'hide-menu' : !isMenuVisible}">
-		<Header title="K4Dev - Base de conhecimento" :hideToggle="false" :hideUserDropdown="false" />
-		<Menu />
+	<div id="app" :class="{'hide-menu' : !isMenuVisible || !user}">
+		<Header title="K4Dev - Base de conhecimento" :hideToggle="!user" :hideUserDropdown="!user" />
+		<Menu v-if="user" />
 		<Content />
 		<Footer />
 	</div>
@@ -24,7 +24,7 @@ export default {
 		Content,
 		Footer
 	},
-	computed: mapState(['isMenuVisible'])
+	computed: mapState(['isMenuVisible', 'user'])
 }
 
 </script>
