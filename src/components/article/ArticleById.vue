@@ -6,7 +6,9 @@
 </template>
 
 <script>
+import 'highlightjs/styles/dracula.css'
 import axios from 'axios'
+import hljs from 'highlightjs/highlight.pack.js'
 import PageTitle from '../templates/PageTitle.vue';
 import { baseApiUrl, showError } from '../../global';
 
@@ -26,7 +28,12 @@ export default {
        }).catch(err => {
            showError(err.response.data)
        })
-    }
+    },
+    updated() {
+        document.querySelectorAll('article-content pre').forEach((block) => {
+            hljs.highlightBlock(block);
+        });
+    },
         
 }
 
