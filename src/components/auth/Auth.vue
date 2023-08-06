@@ -48,7 +48,11 @@ export default {
                     this.$router.push({ path: '/' })
                 })
                 .catch(err => {
-                    showError(err.response.data)
+                    if (err.response.status === 401) {
+                        showError('E-mail e/ou senha inválidos')
+                        return
+                    }
+                    showError(err.response.data.error)
                 })      
         },
         signup() {
