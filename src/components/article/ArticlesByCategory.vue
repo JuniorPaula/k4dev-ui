@@ -52,7 +52,13 @@ export default {
                     this.loadMore = false
                 }
             }).catch(err => {
-                showError(err.response.data)
+                if (err.response.status === 404) {
+                    this.loadMore = false
+                    showError('Não há artigos para essa categoria')
+                    return
+                } else {
+                    showError(err.response.data)
+                }
             })
         }
     
