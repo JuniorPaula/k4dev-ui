@@ -7,6 +7,7 @@ import router from './config/router'
 import './config/bootstrap'
 import './config/msgs'
 import './config/axios'
+import './config/mq'
 
 Vue.config.productionTip = false
 
