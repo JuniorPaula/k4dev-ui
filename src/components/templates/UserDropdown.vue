@@ -11,6 +11,9 @@
             <router-link to="/admin" v-if="user.role">
                 <i class="fa fa-cogs"></i> Administração
             </router-link>
+            <router-link to="/dashboard" v-if="user.role">
+                <i class="fa fa-home"></i> Dashboard
+            </router-link>
             <a href @click.prevent="logout"><i class="fa fa-sign-out"></i> Sair</a>
         </div>
     </div>

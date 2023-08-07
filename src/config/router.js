@@ -15,8 +15,10 @@ Vue.use(VueRouter)
 const routes = [
     {
         name: 'home',
-        path: '/',
-        component: Home
+        path: '/dashboard',
+        component: Home,
+        meta: { requiresAdmin: true }
+
     },
     {
         name: 'adminPages',
@@ -33,7 +35,7 @@ const routes = [
         component: ArticleById
     },{
         name: 'articles',
-        path: '/articles',
+        path: '/',
         component: Articles
     }, {
         name: 'auth',

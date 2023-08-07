@@ -1,6 +1,6 @@
 <template>
     <div class="articles">
-        <PageTitle icon="fa fa-folder-o" main="articles" sub="Todos artigos" />
+        <PageTitle icon="fa fa-folder-o" main="Todos os artigos" sub="Artigos" />
         <ul>
             <li v-for="article in articles" :key="article.id">
                <ArticleItem :article="article" />
