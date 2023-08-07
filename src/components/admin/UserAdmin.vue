@@ -36,7 +36,7 @@
                 Administrador?
             </b-form-checkbox>
             
-            <b-row v-show="mode === 'save'">
+            <b-row v-show="mode === 'save' && !isUpdatePassword">
                 <b-col md="6" sm="12">
                     <b-form-group label="Senha:">
                         <b-form-input 
@@ -97,6 +97,7 @@ export default {
     data: function() {
         return {
             mode: 'save',
+            isUpdatePassword: false,
             user: {},
             users: [],
             fields: [
@@ -115,6 +116,7 @@ export default {
             })
         },
         reset() {
+            this.isUpdatePassword = false
             this.mode = 'save'
             this.user = {}
             this.loadUsers()
@@ -149,6 +151,7 @@ export default {
             })
         },
         loadUser(user, mode = 'save') {
+            this.isUpdatePassword = true
             this.mode = mode
             this.user = { ...user }
         },
