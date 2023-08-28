@@ -41,6 +41,6 @@ This project is licensed under the [MIT License](https://opensource.org/licenses
 
 ## Contact
 
-If you have any questions or suggestions, feel free to contact us at [your-email@example.com](mailto:your-email@example.com).
+If you have any questions or suggestions, feel free to contact us at [ luke.junnior@icloud.com](mailto: luke.junnior@icloud.com).
 
 Thank you for using the K4Dev Frontend to enhance your knowledge-sharing experience!

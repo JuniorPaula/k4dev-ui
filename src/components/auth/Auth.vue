@@ -43,12 +43,18 @@ export default {
 
             axios.post(`${baseApiUrl}/login`, this.user)
                 .then(res => {
+                    if (!res) {
+                        showError('E-mail e/ou senha inválidos')
+                        return
+                    }
+                    
                     this.$store.commit('setUser', res.data)
                     localStorage.setItem(userKey, JSON.stringify(res.data))
                     this.$router.push({ path: '/' })
                 })
                 .catch(err => {
                     if (err.response.status === 401) {
+                        alert(err)
                         showError('E-mail e/ou senha inválidos')
                         return
                     }
