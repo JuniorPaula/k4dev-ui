@@ -27,7 +27,7 @@
                     id="article-imageUrl" 
                     type="text"
                     :readonly="mode === 'remove'"
-                    v-model="article.imageUrl" 
+                    v-model="article.image_url" 
                     required 
                     placeholder="Informe a URL da imagem" />
             </b-form-group>
