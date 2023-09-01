@@ -2,7 +2,7 @@
     <div class="article-item">
         <router-link :to="{ name: 'articleById', params: { id: article.id } }">
             <div class="article-item-img d-none d-sm-block">
-                <img v-if="article.imageUrl" :src="article.imageUrl" alt="Article" height="150" width="150">
+                <img v-if="article.image_url" :src="article.image_url" alt="Article" height="150" width="150">
                 <img v-else src="@/assets/article.png" height="150" width="150" alt="Article">
             </div>
             <div class="article-item-info">
