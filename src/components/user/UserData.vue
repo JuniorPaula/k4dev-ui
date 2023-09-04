@@ -27,7 +27,7 @@
 
             <b-row>
                 <b-col xs="12">
-                    <b-button variant="primary" v-if="mode === 'save'">
+                    <b-button variant="primary" v-if="mode === 'save'" @click="updateUser">
                         Salvar
                     </b-button>
                     <b-button variant="danger" v-if="mode === 'remove'">
@@ -58,6 +58,7 @@ export default {
         reset() {
             this.mode = 'save'
             this.user = {}
+            this.loadUser()
         },
         loadUser() {
             const jsonUser = localStorage.getItem(userKey)
@@ -67,8 +68,33 @@ export default {
                 .then(res => {
                     this.user = res.data
                 })
-                .catch(showError)
-        }   
+                .catch(error => {
+                    if(error.response.status === 400) {
+                        showError('Usuário não encontrado')
+                        return
+                    }         
+                    showError(error)
+                })
+        },
+        updateUser() {
+            const { name, email } = this.user
+            if (!name || !email) {
+                showError('Dados incompletos')
+                return
+            }
+
+            axios.put(`${baseApiUrl}/users/${this.user.id}`, this.user)
+                .then(() => {
+                    this.reset()
+                })
+                .catch(error => {
+                    if(error.response.status === 400) {
+                        showError('Usuário não encontrado')
+                        return
+                    }         
+                    showError(error)
+                })
+        },   
     },
     created() {
         this.loadUser()
