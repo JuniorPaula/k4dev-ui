@@ -7,6 +7,7 @@ import ArticlesByCategory from '../components/article/ArticlesByCategory.vue'
 import ArticleById from '../components/article/ArticleById.vue'
 import Articles from '../components/article/Articles.vue'
 import Auth from '../components/auth/Auth.vue'
+import User from '../components/user/User.vue'
 
 import { userKey } from '../global'
 
@@ -41,6 +42,10 @@ const routes = [
         name: 'auth',
         path: '/login',
         component: Auth
+    }, {
+        name: 'user',
+        path: '/user',
+        component: User,
     }
 ]
 
