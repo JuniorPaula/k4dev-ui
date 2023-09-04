@@ -13,7 +13,7 @@
                         <UserData />
                     </b-tab>
                     <b-tab title="Artigos">
-                        User Articles
+                        <UserArticles />
                     </b-tab>
                 </b-tabs>
             </b-card>
@@ -24,12 +24,14 @@
 <script>
 import PageTitle from '../templates/PageTitle.vue'
 import UserData from './UserData.vue'
+import UserArticles from './UserArticles.vue'
 
 export default {
     name: 'User',
     components: {
         PageTitle,
         UserData,
+        UserArticles
     },
 }
 
