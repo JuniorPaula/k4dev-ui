@@ -10,7 +10,7 @@
             <b-card no-body>
                 <b-tabs card>
                     <b-tab title="Dados" active>
-                        User Data
+                        <UserData />
                     </b-tab>
                     <b-tab title="Artigos">
                         User Articles
@@ -23,11 +23,13 @@
 
 <script>
 import PageTitle from '../templates/PageTitle.vue'
+import UserData from './UserData.vue'
 
 export default {
     name: 'User',
     components: {
         PageTitle,
+        UserData,
     },
 }
 
