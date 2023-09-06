@@ -133,7 +133,20 @@ export default {
             })
         },
         remove() {
-            //
+            axios.delete(`${baseApiUrl}/articles/${this.article.id}`).then(() => {
+                this.$toasted.global.defaultSuccess({ msg: 'Artigo removido com sucesso!' })
+                this.reset()
+            }).catch(err => {
+                if (err.response.status === 400) {
+                    this.$toasted.global.defaultError({ msg: 'Permissão negada para deletar o artigo.' })
+                    return
+                } else if (err.response.status === 500) {
+                    this.$toasted.global.defaultError({ msg: 'Error ao deletar o artigo.' })
+                    return
+                }
+                
+                showError(err)
+            })
         },
         loadCategories() {
             axios.get(`${baseApiUrl}/category`).then(res => {
