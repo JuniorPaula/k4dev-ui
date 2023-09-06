@@ -7,7 +7,7 @@
             </li>
         </ul>
         <div class="load-more">
-            <b-button v-if="loadMore" class="btn btn-md btn-outline-primary" @click="getAllArticles">
+            <b-button v-if="loadMore" class="btn btn-secondary" @click="getAllArticles">
                 Carregar mais
             </b-button>
         </div>

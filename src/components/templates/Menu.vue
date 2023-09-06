@@ -55,14 +55,16 @@ export default {
 <style>
     .menu {
         grid-area: menu;
-        background: linear-gradient(to right, #232526, #414345);
+        background:#232526;
 
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
     }
 
-    .menu a,
+    .menu a {
+        color: #fff;
+    }
     .menu a:hover {
         color: #fff;
         text-decoration: none;
@@ -70,7 +72,7 @@ export default {
 
     .menu .tree-node.selected > .tree-content,
     .menu .tree-node .tree-content:hover {
-        background-color: rgba(255, 255, 255, 0.2);
+        background-color: #504f4f;
     }
 
     .tree-arrow.has-child {
