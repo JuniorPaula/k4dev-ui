@@ -124,7 +124,7 @@ export default {
             }).catch(err => showError(err.response.data))
         },
         remove() {
-            axios.delete(`${baseApiUrl}/category/delete/${this.category.id}`).then(() => {
+            axios.delete(`${baseApiUrl}/articles/${this.article.id}`).then(() => {
                 this.$toasted.global.defaultSuccess({ msg: 'Categoria removida com sucesso!' })
                 this.reset()
             }).catch(err => {
