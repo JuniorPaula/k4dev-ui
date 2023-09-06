@@ -14,6 +14,9 @@
             <router-link to="/dashboard" v-if="user.role">
                 <i class="fa fa-home"></i> Dashboard
             </router-link>
+            <router-link to="/user">
+                <i class="fa fa-user"></i> Perfil
+            </router-link>
             <a href @click.prevent="logout"><i class="fa fa-sign-out"></i> Sair</a>
         </div>
     </div>
