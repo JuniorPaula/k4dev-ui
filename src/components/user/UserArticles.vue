@@ -54,6 +54,19 @@
                 Cancelar
             </b-button>
         </b-form>
+        <hr />
+        <b-table hover striped :items="articles" :fields="fields">
+            <template slot="actions" slot-scope="data">
+                <b-button variant="warning" @click="loadArticle(data.item)" class="mr-2">
+                    <i class="fa fa-pencil"></i>
+                </b-button>
+                <b-button variant="danger" @click="loadArticle(data.item, 'remove')" class="mr-2">
+                    <i class="fa fa-trash"></i>
+                </b-button>
+            </template>
+        </b-table>
+
+        <b-pagination size="md" v-model="page" :total-rows="count" :per-page="limit" />
     </div>
 </template>
 
@@ -73,16 +86,40 @@ export default {
             article: {},
             articles: [],
             categories: [],
+            page: 1,
+            limit: 0,
+            count: 0,
+            fields: [
+                { key: 'id', label: 'Código', sortable: true },
+                { key: 'name', label: 'Nome', sortable: true },
+                { key: 'description', label: 'Descrição', sortable: true },
+                { key: 'actions', label: 'Ações' }
+            ]
         }
     },
     methods: {
         reset() {
             this.mode = 'save'
             this.article = {}
+            this.loadUser()
             this.loadArticles()
         },
         loadArticles() {
-            //
+            axios.get(`${baseApiUrl}/articles?page=${this.page}`).then(res => {
+                const articles = res.data.data.filter(a => {
+                    return a.user_id === this.article.user_id
+                })
+                
+                this.articles = articles
+                this.count = res.data.count
+                this.limit = res.data.limit
+            }).catch(err => showError(err.response.data))
+        },
+        loadArticle(article, mode = 'save') {
+            this.mode = mode
+            axios.get(`${baseApiUrl}/articles/${article.id}`).then(res => {
+                this.article = res.data
+            }).catch(err => showError(err.response.data))
         },
         save() {
             const method = this.article.id ? 'put' : 'post'
@@ -113,6 +150,11 @@ export default {
             const user = JSON.parse(jsonUser)
             this.article.user_id = parseInt(user.user_id)
         },
+    },
+    watch: {
+        page() {
+            this.loadArticles()
+        }
     },
     mounted() {
         this.loadArticles()
